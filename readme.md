@@ -1,7 +1,7 @@
 ### 主要特性
 
 - 汉化了原作者的安装脚本
-- 将原脚本里的GitHub下载源换成了大陆服务器能够连通的源
+- 将原脚本里的GitHub下载源换成了中国大陆服务器能够连通的源
 - 其余部分，原汁原味
 
 ### 安装与升级
@@ -18,8 +18,11 @@ bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 ```js
 VERSION=v1.7.9 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
 ```
+<<<<<<< HEAD
 
 
 ### 感谢 3X-UI 的作者
 
 - [3X-UI](https://github.com/MHSanaei/3x-ui)
+=======
+>>>>>>> 3640ce834b9a483a47e93591f3e436ba4734161f
