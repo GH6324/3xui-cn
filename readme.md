@@ -18,7 +18,6 @@ bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 ```js
 VERSION=v1.7.9 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
 ```
-<<<<<<< HEAD
 
 
 ### 感谢 3X-UI 的作者
