@@ -8,7 +8,7 @@
 
 - 要安装或升级，可以使用以下命令：
 ```js
-bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/master/install.sh)
+bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 ```
 
 ### 安装旧版本（不推荐）
