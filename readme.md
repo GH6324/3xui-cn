@@ -24,5 +24,3 @@ VERSION=v1.7.9 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VER
 ### 感谢 3X-UI 的作者
 
 - [3X-UI](https://github.com/MHSanaei/3x-ui)
-=======
->>>>>>> 3640ce834b9a483a47e93591f3e436ba4734161f
