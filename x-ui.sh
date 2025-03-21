@@ -56,12 +56,12 @@ elif [[ "${release}" == "openEuler" ]]; then
         echo -e "${red} Please use OpenEuler 22.03 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "centos" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red} Please use CentOS 8 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 7 ]]; then
+        echo -e "${red} Please use CentOS 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "ubuntu" ]]; then
-    if [[ ${os_version} -lt 2204 ]]; then
-        echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
+    if [[ ${os_version} -lt 2004 ]]; then
+        echo -e "${red} Please use Ubuntu 20 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "fedora" ]]; then
     if [[ ${os_version} -lt 36 ]]; then
@@ -72,16 +72,16 @@ elif [[ "${release}" == "amzn" ]]; then
         echo -e "${red} Please use Amazon Linux 2023!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "debian" ]]; then
-    if [[ ${os_version} -lt 12 ]]; then
-        echo -e "${red} Please use Debian 12 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 9 ]]; then
+        echo -e "${red} Please use Debian 9 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "almalinux" ]]; then
     if [[ ${os_version} -lt 80 ]]; then
         echo -e "${red} Please use AlmaLinux 8.0 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "rocky" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red} Please use Rocky Linux 8 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 7 ]]; then
+        echo -e "${red} Please use Rocky Linux 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "ol" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
@@ -94,9 +94,9 @@ elif [[ "${release}" == "virtuozzo" ]]; then
 else
     echo -e "${red}Your operating system is not supported by this script.${plain}\n"
     echo "Please ensure you are using one of the following supported operating systems:"
-    echo "- Ubuntu 22.04+"
-    echo "- Debian 12+"
-    echo "- CentOS 8+"
+    echo "- Ubuntu 20.04+"
+    echo "- Debian 9+"
+    echo "- CentOS 7+"
     echo "- OpenEuler 22.03+"
     echo "- Fedora 36+"
     echo "- Arch Linux"
@@ -104,7 +104,7 @@ else
     echo "- Manjaro"
     echo "- Armbian"
     echo "- AlmaLinux 8.0+"
-    echo "- Rocky Linux 8+"
+    echo "- Rocky Linux 7+"
     echo "- Oracle Linux 8+"
     echo "- OpenSUSE Tumbleweed"
     echo "- Amazon Linux 2023"
