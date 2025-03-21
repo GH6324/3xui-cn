@@ -3,7 +3,8 @@
 
 - 将原脚本里的GitHub下载源换成了中国大陆服务器能够连通的源
 - 其余部分，保持原汁原味
-- 降低系统版本检测（实验性），有问题请及时反馈
+- 降低系统版本检测（实验性），有问题请在issues及时反馈
+
 ### 安装与升级
 
 - 要安装或升级，可以使用以下命令：
@@ -18,7 +19,7 @@ bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 ```js
 VERSION=v2.5.5 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
 ```
-
+### 如果帮助到了你的话，动动你发财的小手帮忙点个Star 谢谢
 
 ### 感谢 3X-UI 的作者
 
