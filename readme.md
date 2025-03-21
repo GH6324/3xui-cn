@@ -27,7 +27,7 @@
 - Windows x64
 
 ### 安装与升级
-- 要安装或升级，新系统可以使用以下命令：
+- 要安装或升级，[新系统](https://github.com/GH6324/3xui-cn?tab=readme-ov-file#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC)可以使用以下命令：
 ```js
 bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 ```
