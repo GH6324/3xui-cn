@@ -34,7 +34,7 @@ bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 
 ### 老系统可安装旧版本（不推荐）
 
-- 如果你想安装某个特定的旧版本，老系统可以使用下面的命令。例如，安装v2.5.5版本(最后一个支持**老系统**的版本)：
+- 如果你想安装某个特定的旧版本，老系统可以使用下面的命令。安装v2.5.5版本(最后一个支持**老系统**的版本)：
 
 ```js
 VERSION=v2.5.5 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
