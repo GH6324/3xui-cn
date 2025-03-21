@@ -60,8 +60,8 @@ elif [[ "${release}" == "centos" ]]; then
         echo -e "${red} Please use CentOS 8 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "ubuntu" ]]; then
-    if [[ ${os_version} -lt 2004 ]]; then
-        echo -e "${red} Please use Ubuntu 20 or higher version!${plain}\n" && exit 1
+    if [[ ${os_version} -lt 2204 ]]; then
+        echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "fedora" ]]; then
     if [[ ${os_version} -lt 36 ]]; then
@@ -72,8 +72,8 @@ elif [[ "${release}" == "amzn" ]]; then
         echo -e "${red} Please use Amazon Linux 2023!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "debian" ]]; then
-    if [[ ${os_version} -lt 11 ]]; then
-        echo -e "${red} Please use Debian 11 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 12 ]]; then
+        echo -e "${red} Please use Debian 12 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "almalinux" ]]; then
     if [[ ${os_version} -lt 80 ]]; then
@@ -94,8 +94,8 @@ elif [[ "${release}" == "virtuozzo" ]]; then
 else
     echo -e "${red}Your operating system is not supported by this script.${plain}\n"
     echo "Please ensure you are using one of the following supported operating systems:"
-    echo "- Ubuntu 20.04+"
-    echo "- Debian 11+"
+    echo "- Ubuntu 22.04+"
+    echo "- Debian 12+"
     echo "- CentOS 8+"
     echo "- OpenEuler 22.03+"
     echo "- Fedora 36+"
@@ -580,7 +580,7 @@ enable_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/x-ui -N https://hub.gitmirror.com/https://github.com/GH6324/3xui-cn/raw/main/x-ui.sh
+    wget -O /usr/bin/x-ui -N https://github.com/GH6324/3xui-cn/raw/main/x-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
         LOGE "Failed to download script, Please check whether the machine can connect Github"
@@ -1127,7 +1127,7 @@ ssl_cert_issue() {
 
     # issue the certificate
     ~/.acme.sh/acme.sh --set-default-ca --server letsencrypt
-    ~/.acme.sh/acme.sh --issue -d ${domain} --listen-v6 --standalone --httpport ${WebPort}
+    ~/.acme.sh/acme.sh --issue -d ${domain} --listen-v6 --standalone --httpport ${WebPort} --force
     if [ $? -ne 0 ]; then
         LOGE "Issuing certificate failed, please check logs."
         rm -rf ~/.acme.sh/${domain}
@@ -1136,10 +1136,36 @@ ssl_cert_issue() {
         LOGE "Issuing certificate succeeded, installing certificates..."
     fi
 
+    reloadCmd="x-ui restart"
+
+    LOGI "Default --reloadcmd for ACME is: ${yellow}x-ui restart"
+    LOGI "This command will run on every certificate issue and renew."
+    read -p "Would you like to modify --reloadcmd for ACME? (y/n): " setReloadcmd
+    if [[ "$setReloadcmd" == "y" || "$setReloadcmd" == "Y" ]]; then
+        echo -e "\n${green}\t1.${plain} Preset: systemctl reload nginx ; x-ui restart"
+        echo -e "${green}\t2.${plain} Input your own command"
+        echo -e "${green}\t0.${plain} Keep default reloadcmd"
+        read -p "Choose an option: " choice
+        case "$choice" in
+        1)
+            LOGI "Reloadcmd is: systemctl reload nginx ; x-ui restart"
+            reloadCmd="systemctl reload nginx ; x-ui restart"
+            ;;
+        2)  
+            LOGD "It's recommended to put x-ui restart at the end, so it won't raise an error if other services fails"
+            read -p "Please enter your reloadcmd (example: systemctl reload nginx ; x-ui restart): " reloadCmd
+            LOGI "Your reloadcmd is: ${reloadCmd}"
+            ;;
+        *)
+            LOGI "Keep default reloadcmd"
+            ;;
+        esac
+    fi
+
     # install the certificate
     ~/.acme.sh/acme.sh --installcert -d ${domain} \
         --key-file /root/cert/${domain}/privkey.pem \
-        --fullchain-file /root/cert/${domain}/fullchain.pem
+        --fullchain-file /root/cert/${domain}/fullchain.pem --reloadcmd "${reloadCmd}"
 
     if [ $? -ne 0 ]; then
         LOGE "Installing certificate failed, exiting."
@@ -1208,13 +1234,6 @@ ssl_cert_issue_CF() {
         fi
 
         CF_Domain=""
-        certPath="/root/cert-CF"
-        if [ ! -d "$certPath" ]; then
-            mkdir -p $certPath
-        else
-            rm -rf $certPath
-            mkdir -p $certPath
-        fi
 
         LOGD "Please set a domain name:"
         read -p "Input your domain here: " CF_Domain
@@ -1242,7 +1261,7 @@ ssl_cert_issue_CF() {
         export CF_Email="${CF_AccountEmail}"
 
         # Issue the certificate using Cloudflare DNS
-        ~/.acme.sh/acme.sh --issue --dns dns_cf -d ${CF_Domain} -d *.${CF_Domain} --log
+        ~/.acme.sh/acme.sh --issue --dns dns_cf -d ${CF_Domain} -d *.${CF_Domain} --log --force
         if [ $? -ne 0 ]; then
             LOGE "Certificate issuance failed, script exiting..."
             exit 1
@@ -1250,17 +1269,47 @@ ssl_cert_issue_CF() {
             LOGI "Certificate issued successfully, Installing..."
         fi
 
-        # Install the certificate
-        mkdir -p ${certPath}/${CF_Domain}
+         # Install the certificate
+        certPath="/root/cert/${CF_Domain}"
+        if [ -d "$certPath" ]; then
+            rm -rf ${certPath}
+        fi
+
+        mkdir -p ${certPath}
         if [ $? -ne 0 ]; then
-            LOGE "Failed to create directory: ${certPath}/${CF_Domain}"
+            LOGE "Failed to create directory: ${certPath}"
             exit 1
         fi
 
-        ~/.acme.sh/acme.sh --installcert -d ${CF_Domain} -d *.${CF_Domain} \
-            --fullchain-file ${certPath}/${CF_Domain}/fullchain.pem \
-            --key-file ${certPath}/${CF_Domain}/privkey.pem
+        reloadCmd="x-ui restart"
 
+        LOGI "Default --reloadcmd for ACME is: ${yellow}x-ui restart"
+        LOGI "This command will run on every certificate issue and renew."
+        read -p "Would you like to modify --reloadcmd for ACME? (y/n): " setReloadcmd
+        if [[ "$setReloadcmd" == "y" || "$setReloadcmd" == "Y" ]]; then
+            echo -e "\n${green}\t1.${plain} Preset: systemctl reload nginx ; x-ui restart"
+            echo -e "${green}\t2.${plain} Input your own command"
+            echo -e "${green}\t0.${plain} Keep default reloadcmd"
+            read -p "Choose an option: " choice
+            case "$choice" in
+            1)
+                LOGI "Reloadcmd is: systemctl reload nginx ; x-ui restart"
+                reloadCmd="systemctl reload nginx ; x-ui restart"
+                ;;
+            2)  
+                LOGD "It's recommended to put x-ui restart at the end, so it won't raise an error if other services fails"
+                read -p "Please enter your reloadcmd (example: systemctl reload nginx ; x-ui restart): " reloadCmd
+                LOGI "Your reloadcmd is: ${reloadCmd}"
+                ;;
+            *)
+                LOGI "Keep default reloadcmd"
+                ;;
+            esac
+        fi
+        ~/.acme.sh/acme.sh --installcert -d ${CF_Domain} -d *.${CF_Domain} \
+            --key-file ${certPath}/privkey.pem \
+            --fullchain-file ${certPath}/fullchain.pem --reloadcmd "${reloadCmd}"
+        
         if [ $? -ne 0 ]; then
             LOGE "Certificate installation failed, script exiting..."
             exit 1
@@ -1275,15 +1324,15 @@ ssl_cert_issue_CF() {
             exit 1
         else
             LOGI "The certificate is installed and auto-renewal is turned on. Specific information is as follows:"
-            ls -lah ${certPath}/${CF_Domain}
-            chmod 755 ${certPath}/${CF_Domain}
+            ls -lah ${certPath}/*
+            chmod 755 ${certPath}/*
         fi
 
         # Prompt user to set panel paths after successful certificate installation
         read -p "Would you like to set this certificate for the panel? (y/n): " setPanel
         if [[ "$setPanel" == "y" || "$setPanel" == "Y" ]]; then
-            local webCertFile="${certPath}/${CF_Domain}/fullchain.pem"
-            local webKeyFile="${certPath}/${CF_Domain}/privkey.pem"
+            local webCertFile="${certPath}/fullchain.pem"
+            local webKeyFile="${certPath}/privkey.pem"
 
             if [[ -f "$webCertFile" && -f "$webKeyFile" ]]; then
                 /usr/local/x-ui/x-ui cert -webCert "$webCertFile" -webCertKey "$webKeyFile"
@@ -1585,7 +1634,6 @@ install_iplimit() {
     # Launching fail2ban
     if ! systemctl is-active --quiet fail2ban; then
         systemctl start fail2ban
-        systemctl enable fail2ban
     else
         systemctl restart fail2ban
     fi
