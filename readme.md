@@ -13,7 +13,7 @@ bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
 
 ### 安装旧版本（不推荐）
 
-- 如果你想安装某个特定的旧版本，可以使用下面的命令。例如，安装v2.5.5版本(最后一个支持Debian11系统的版本)：
+- 如果你想安装某个特定的旧版本，可以使用下面的命令。例如，安装v2.5.5版本(最后一个支持**Debian11**系统的版本)：
 
 ```js
 VERSION=v2.5.5 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
