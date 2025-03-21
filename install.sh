@@ -64,7 +64,7 @@ elif [[ "${release}" == "centos" ]]; then
     fi
 elif [[ "${release}" == "ubuntu" ]]; then
     if [[ ${os_version} -lt 2004 ]]; then
-        echo -e "${red} Please use Ubuntu 20 or higher version!${plain}\n" && exit 1
+        echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "fedora" ]]; then
     if [[ ${os_version} -lt 36 ]]; then
@@ -87,8 +87,8 @@ elif [[ "${release}" == "rocky" ]]; then
         echo -e "${red} Please use Rocky Linux 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "ol" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red} Please use Oracle Linux 8 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 7 ]]; then
+        echo -e "${red} Please use Oracle Linux 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "virtuozzo" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
@@ -108,7 +108,7 @@ else
     echo "- Armbian"
     echo "- AlmaLinux 8.0+"
     echo "- Rocky Linux 7+"
-    echo "- Oracle Linux 8+"
+    echo "- Oracle Linux 7+"
     echo "- OpenSUSE Tumbleweed"
     echo "- Amazon Linux 2023"
     echo "- Virtuozzo Linux 8+"

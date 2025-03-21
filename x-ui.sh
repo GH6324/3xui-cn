@@ -61,7 +61,7 @@ elif [[ "${release}" == "centos" ]]; then
     fi
 elif [[ "${release}" == "ubuntu" ]]; then
     if [[ ${os_version} -lt 2004 ]]; then
-        echo -e "${red} Please use Ubuntu 20 or higher version!${plain}\n" && exit 1
+        echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "fedora" ]]; then
     if [[ ${os_version} -lt 36 ]]; then
@@ -84,8 +84,8 @@ elif [[ "${release}" == "rocky" ]]; then
         echo -e "${red} Please use Rocky Linux 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "ol" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red} Please use Oracle Linux 8 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 7 ]]; then
+        echo -e "${red} Please use Oracle Linux 7 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "virtuozzo" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
@@ -105,7 +105,7 @@ else
     echo "- Armbian"
     echo "- AlmaLinux 8.0+"
     echo "- Rocky Linux 7+"
-    echo "- Oracle Linux 8+"
+    echo "- Oracle Linux 7+"
     echo "- OpenSUSE Tumbleweed"
     echo "- Amazon Linux 2023"
     echo "- Virtuozzo Linux 8+"
@@ -894,24 +894,24 @@ update_geo() {
     1)
         systemctl stop x-ui
         rm -f geoip.dat geosite.dat
-        wget -N https://hub.gitmirror.com/https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-        wget -N https://hub.gitmirror.com/https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
+        wget -N https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+        wget -N https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
         echo -e "${green}Loyalsoldier datasets have been updated successfully!${plain}"
         restart
         ;;
     2)
         systemctl stop x-ui
         rm -f geoip_IR.dat geosite_IR.dat
-        wget -O geoip_IR.dat -N https://hub.gitmirror.com/https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat
-        wget -O geosite_IR.dat -N https://hub.gitmirror.com/https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat
+        wget -O geoip_IR.dat -N https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat
+        wget -O geosite_IR.dat -N https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat
         echo -e "${green}chocolate4u datasets have been updated successfully!${plain}"
         restart
         ;;
     3)
         systemctl stop x-ui
         rm -f geoip_RU.dat geosite_RU.dat
-        wget -O geoip_RU.dat -N https://hub.gitmirror.com/https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat
-        wget -O geosite_RU.dat -N https://hub.gitmirror.com/https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat
+        wget -O geoip_RU.dat -N https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat
+        wget -O geosite_RU.dat -N https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat
         echo -e "${green}runetfreedom datasets have been updated successfully!${plain}"
         restart
         ;;
