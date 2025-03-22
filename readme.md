@@ -36,7 +36,7 @@ bash <(curl -Ls https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/ma
 - 如果你想安装某个特定的旧版本，老系统可以使用下面的命令。安装v2.5.5版本(最后一个支持**老系统**的版本)：
 
 ```js
-VERSION=v2.5.5 && bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
+VERSION=v2.5.5 && bash <(curl -Ls "https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/$VERSION/install.sh") $VERSION
 ```
 ### 如果帮助到了你的话，动动你发财的小手帮忙点个Star 谢谢
 
