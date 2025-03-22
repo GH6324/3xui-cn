@@ -26,7 +26,7 @@
 - Windows x64
 
 ### 安装与升级
-- 要安装或升级，[新系统](https://github.com/GH6324/3xui-cn?tab=readme-ov-file#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC)可以使用以下命令：
+- 要安装或升级，[新系统](https://github.com/GH6324/3xui-cn?tab=readme-ov-file#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC)可以使用以下命令（**此命令安装是的3x-ui的最新版本，如果你的系统不在上面的支持系统列表以内的话，请勿使用这条命令安装，否则3x-ui面板将无法正常运行**）：
 ```js
 bash <(curl -Ls https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/main/install.sh)
 ```
