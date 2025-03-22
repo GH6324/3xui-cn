@@ -52,8 +52,8 @@ elif [[ "${release}" == "alpine" ]]; then
 elif [[ "${release}" == "opensuse-tumbleweed" ]]; then
     echo "Your OS is OpenSUSE Tumbleweed"
 elif [[ "${release}" == "openEuler" ]]; then
-    if [[ ${os_version} -lt 2203 ]]; then
-        echo -e "${red} Please use OpenEuler 22.03 or higher ${plain}\n" && exit 1
+    if [[ ${os_version} -lt 2003 ]]; then
+        echo -e "${red} Please use OpenEuler 20.03 or higher ${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "centos" ]]; then
     if [[ ${os_version} -lt 7 ]]; then
@@ -64,8 +64,8 @@ elif [[ "${release}" == "ubuntu" ]]; then
         echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "fedora" ]]; then
-    if [[ ${os_version} -lt 36 ]]; then
-        echo -e "${red} Please use Fedora 36 or higher version!${plain}\n" && exit 1
+    if [[ ${os_version} -lt 33 ]]; then
+        echo -e "${red} Please use Fedora 33 or higher version!${plain}\n" && exit 1
     fi
 elif [[ "${release}" == "amzn" ]]; then
     if [[ ${os_version} != "2023" ]]; then
@@ -97,8 +97,8 @@ else
     echo "- Ubuntu 20.04+"
     echo "- Debian 9+"
     echo "- CentOS 7+"
-    echo "- OpenEuler 22.03+"
-    echo "- Fedora 36+"
+    echo "- OpenEuler 20.03+"
+    echo "- Fedora 33+"
     echo "- Arch Linux"
     echo "- Parch Linux"
     echo "- Manjaro"
@@ -148,7 +148,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
+    bash <(curl -Ls https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/main/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -167,7 +167,7 @@ update() {
         fi
         return 0
     fi
-    bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/main/install.sh)
+    bash <(curl -Ls https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/main/install.sh)
     if [[ $? == 0 ]]; then
         LOGI "Update is complete, Panel has automatically restarted "
         before_show_menu
@@ -185,7 +185,7 @@ update_menu() {
         return 0
     fi
 
-    wget -O /usr/bin/x-ui https://raw.gitmirror.com/GH6324/3xui-cn/main/x-ui.sh
+    wget -O /usr/bin/x-ui https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/main/x-ui.sh
     chmod +x /usr/local/x-ui/x-ui.sh
     chmod +x /usr/bin/x-ui
 
@@ -207,7 +207,7 @@ legacy_version() {
         exit 1
     fi
     # Use the entered panel version in the download link
-    install_command="bash <(curl -Ls "https://raw.gitmirror.com/GH6324/3xui-cn/v$tag_version/install.sh") v$tag_version"
+    install_command="bash <(curl -Ls "https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/v$tag_version/install.sh") v$tag_version"
 
     echo "Downloading and installing panel version $tag_version..."
     eval $install_command
@@ -238,7 +238,7 @@ uninstall() {
     echo ""
     echo -e "Uninstalled Successfully.\n"
     echo "If you need to install this panel again, you can use below command:"
-    echo -e "${green}bash <(curl -Ls https://raw.gitmirror.com/GH6324/3xui-cn/master/install.sh)${plain}"
+    echo -e "${green}bash <(curl -Ls https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/master/install.sh)${plain}"
     echo ""
     # Trap the SIGTERM signal
     trap delete_script SIGTERM
@@ -580,7 +580,7 @@ enable_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/x-ui -N https://github.com/GH6324/3xui-cn/raw/main/x-ui.sh
+    wget -O /usr/bin/x-ui -N https://gh-proxy.com/https://github.com/GH6324/3xui-cn/raw/main/x-ui.sh
     if [[ $? != 0 ]]; then
         echo ""
         LOGE "Failed to download script, Please check whether the machine can connect Github"
@@ -894,24 +894,24 @@ update_geo() {
     1)
         systemctl stop x-ui
         rm -f geoip.dat geosite.dat
-        wget -N https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-        wget -N https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
+        wget -N https://gh-proxy.com/https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+        wget -N https://gh-proxy.com/https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
         echo -e "${green}Loyalsoldier datasets have been updated successfully!${plain}"
         restart
         ;;
     2)
         systemctl stop x-ui
         rm -f geoip_IR.dat geosite_IR.dat
-        wget -O geoip_IR.dat -N https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat
-        wget -O geosite_IR.dat -N https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat
+        wget -O geoip_IR.dat -N https://gh-proxy.com/https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat
+        wget -O geosite_IR.dat -N https://gh-proxy.com/https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat
         echo -e "${green}chocolate4u datasets have been updated successfully!${plain}"
         restart
         ;;
     3)
         systemctl stop x-ui
         rm -f geoip_RU.dat geosite_RU.dat
-        wget -O geoip_RU.dat -N https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat
-        wget -O geosite_RU.dat -N https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat
+        wget -O geoip_RU.dat -N https://gh-proxy.com/https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat
+        wget -O geosite_RU.dat -N https://gh-proxy.com/https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat
         echo -e "${green}runetfreedom datasets have been updated successfully!${plain}"
         restart
         ;;
