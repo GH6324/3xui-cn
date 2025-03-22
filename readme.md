@@ -3,7 +3,7 @@
 
 - 将原脚本里的GitHub下载源换成了中国大陆服务器能够连通的源
 - 降低系统版本检测（实验性），有问题请在[issues](https://github.com/GH6324/3xui-cn/issues/new) 及时反馈
-- 支持了iPv6 Only的VPS
+- 支持了iPv6 Only的VPS（实验性），有问题请在[issues](https://github.com/GH6324/3xui-cn/issues/new) 及时反馈
 - 其余部分，保持原汁原味
 
 ### 2.5.6+版本支持的系统版本
