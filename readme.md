@@ -37,7 +37,7 @@
 
 ## 📥 安装与升级
 
-如需安装或升级，[**支持的系统**](https://github.com/GH6324/3xui-cn?tab=readme-ov-file#%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC) 可使用以下命令：
+如需安装或升级，[**支持的系统**](https://github.com/GH6324/3xui-cn?tab=readme-ov-file#%EF%B8%8F-3x-ui-256-%E7%89%88%E6%9C%AC%E6%94%AF%E6%8C%81%E7%9A%84%E7%B3%BB%E7%BB%9F) 可使用以下命令：
 
 ⚠ **请注意**：本命令安装的是 3x-ui 最新版本。如果你的系统不在支持列表中，请勿使用，否则面板可能无法正常运行！
 
