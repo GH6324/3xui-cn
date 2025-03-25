@@ -14,10 +14,10 @@ cur_dir=$(pwd)
 # Check OS and set release variable
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
-    release=$ID
+    release=$PRETTY_NAME
 elif [[ -f /usr/lib/os-release ]]; then
     source /usr/lib/os-release
-    release=$ID
+    release=$PRETTY_NAME
 else
     echo "Failed to check the system OS, please contact the author!" >&2
     exit 1
@@ -39,81 +39,18 @@ arch() {
 
 echo "arch: $(arch)"
 
-os_version=""
-os_version=$(grep "^VERSION_ID" /etc/os-release | cut -d '=' -f2 | tr -d '"' | tr -d '.')
-
-if [[ "${release}" == "arch" ]]; then
-    echo "Your OS is Arch Linux"
-elif [[ "${release}" == "parch" ]]; then
-    echo "Your OS is Parch Linux"
-elif [[ "${release}" == "manjaro" ]]; then
-    echo "Your OS is Manjaro"
-elif [[ "${release}" == "armbian" ]]; then
-    echo "Your OS is Armbian"
-elif [[ "${release}" == "alpine" ]]; then
-    echo "Your OS is Alpine Linux"
-elif [[ "${release}" == "opensuse-tumbleweed" ]]; then
-    echo "Your OS is OpenSUSE Tumbleweed"
-elif [[ "${release}" == "openEuler" ]]; then
-    if [[ ${os_version} -lt 2003 ]]; then
-        echo -e "${red} Please use OpenEuler 20.03 or higher ${plain}\n" && exit 1
+check_glibc_version() {
+    glibc_version=$(ldd --version | head -n1 | awk '{print $NF}')
+    
+    required_version="2.30"
+    if [[ "$(printf '%s\n' "$required_version" "$glibc_version" | sort -V | head -n1)" != "$required_version" ]]; then
+        echo -e "${red}GLIBC version $glibc_version is too old! Required: 2.30 or higher${plain}"
+        echo "Please upgrade to a newer version of your operating system to get a higher GLIBC version."
+        exit 1
     fi
-elif [[ "${release}" == "centos" ]]; then
-    if [[ ${os_version} -lt 7 ]]; then
-        echo -e "${red} Please use CentOS 7 or higher ${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "ubuntu" ]]; then
-    if [[ ${os_version} -lt 2004 ]]; then
-        echo -e "${red} Please use Ubuntu 22 or higher version!${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "fedora" ]]; then
-    if [[ ${os_version} -lt 33 ]]; then
-        echo -e "${red} Please use Fedora 33 or higher version!${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "amzn" ]]; then
-    if [[ ${os_version} != "2023" ]]; then
-        echo -e "${red} Please use Amazon Linux 2023!${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "debian" ]]; then
-    if [[ ${os_version} -lt 9 ]]; then
-        echo -e "${red} Please use Debian 9 or higher ${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "almalinux" ]]; then
-    if [[ ${os_version} -lt 80 ]]; then
-        echo -e "${red} Please use AlmaLinux 8.0 or higher ${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "rocky" ]]; then
-    if [[ ${os_version} -lt 7 ]]; then
-        echo -e "${red} Please use Rocky Linux 7 or higher ${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "ol" ]]; then
-    if [[ ${os_version} -lt 7 ]]; then
-        echo -e "${red} Please use Oracle Linux 7 or higher ${plain}\n" && exit 1
-    fi
-elif [[ "${release}" == "virtuozzo" ]]; then
-    if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red} Please use Virtuozzo Linux 8 or higher ${plain}\n" && exit 1
-    fi
-else
-    echo -e "${red}Your operating system is not supported by this script.${plain}\n"
-    echo "Please ensure you are using one of the following supported operating systems:"
-    echo "- Ubuntu 20.04+"
-    echo "- Debian 9+"
-    echo "- CentOS 7+"
-    echo "- OpenEuler 20.03+"
-    echo "- Fedora 33+"
-    echo "- Arch Linux"
-    echo "- Parch Linux"
-    echo "- Manjaro"
-    echo "- Armbian"
-    echo "- AlmaLinux 8.0+"
-    echo "- Rocky Linux 7+"
-    echo "- Oracle Linux 7+"
-    echo "- OpenSUSE Tumbleweed"
-    echo "- Amazon Linux 2023"
-    echo "- Virtuozzo Linux 8+"
-    exit 1
-fi
+    echo "GLIBC version: $glibc_version (meets requirement of 2.30+)"
+}
+check_glibc_version
 
 install_base() {
     case "${release}" in
@@ -208,7 +145,7 @@ install_x-ui() {
     cd /usr/local/
 
     if [ $# == 0 ]; then
-        tag_version=$(curl -Ls "https://api.github.com/repos/MHSanaei/3x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        tag_version=$(curl -Ls "https://proxy.api.030101.xyz/https://api.github.com/repos/MHSanaei/3x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$tag_version" ]]; then
             echo -e "${red}Failed to fetch x-ui version, it may be due to GitHub API restrictions, please try it later${plain}"
             exit 1
@@ -256,7 +193,7 @@ install_x-ui() {
 
     chmod +x x-ui bin/xray-linux-$(arch)
     cp -f x-ui.service /etc/systemd/system/
-    wget -O /usr/bin/x-ui https://gh-proxy.com/raw.githubusercontent.com/GH6324/3xui-cn/main/x-ui.sh
+    wget -O /usr/bin/x-ui https://gh-proxy.com/https://raw.githubusercontent.com/GH6324/3xui-cn/main/x-ui.sh
     chmod +x /usr/local/x-ui/x-ui.sh
     chmod +x /usr/bin/x-ui
     config_after_install
