@@ -14,10 +14,10 @@ cur_dir=$(pwd)
 # Check OS and set release variable
 if [[ -f /etc/os-release ]]; then
     source /etc/os-release
-    release=$PRETTY_NAME
+    release=$ID
 elif [[ -f /usr/lib/os-release ]]; then
     source /usr/lib/os-release
-    release=$PRETTY_NAME
+    release=$ID
 else
     echo "Failed to check the system OS, please contact the author!" >&2
     exit 1
@@ -37,14 +37,14 @@ arch() {
     esac
 }
 
-echo "arch: $(arch)"
+echo "Arch: $(arch)"
 
 check_glibc_version() {
     glibc_version=$(ldd --version | head -n1 | awk '{print $NF}')
     
     required_version="2.30"
     if [[ "$(printf '%s\n' "$required_version" "$glibc_version" | sort -V | head -n1)" != "$required_version" ]]; then
-        echo -e "${red}GLIBC version $glibc_version is too old! Required: 2.30 or higher${plain}"
+        echo -e "${red}GLIBC version $glibc_version is too old! Required: 2.32 or higher${plain}"
         echo "Please upgrade to a newer version of your operating system to get a higher GLIBC version."
         exit 1
     fi
@@ -94,9 +94,9 @@ config_after_install() {
             local config_username=$(gen_random_string 10)
             local config_password=$(gen_random_string 10)
 
-            read -p "Would you like to customize the Panel Port settings? (If not, a random port will be applied) [y/n]: " config_confirm
+            read -rp "Would you like to customize the Panel Port settings? (If not, a random port will be applied) [y/n]: " config_confirm
             if [[ "${config_confirm}" == "y" || "${config_confirm}" == "Y" ]]; then
-                read -p "Please set up the panel port: " config_port
+                read -rp "Please set up the panel port: " config_port
                 echo -e "${yellow}Your Panel Port is: ${config_port}${plain}"
             else
                 local config_port=$(shuf -i 1024-62000 -n 1)
@@ -145,7 +145,7 @@ install_x-ui() {
     cd /usr/local/
 
     if [ $# == 0 ]; then
-        tag_version=$(curl -Ls "https://proxy.api.030101.xyz/https://api.github.com/repos/MHSanaei/3x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        tag_version=$(curl -Ls "https://proxy.api.030101.xyz/api.github.com/repos/MHSanaei/3x-ui/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [[ ! -n "$tag_version" ]]; then
             echo -e "${red}Failed to fetch x-ui version, it may be due to GitHub API restrictions, please try it later${plain}"
             exit 1
