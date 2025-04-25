@@ -42,13 +42,13 @@ echo "Arch: $(arch)"
 check_glibc_version() {
     glibc_version=$(ldd --version | head -n1 | awk '{print $NF}')
     
-    required_version="2.30"
+    required_version="2.15"
     if [[ "$(printf '%s\n' "$required_version" "$glibc_version" | sort -V | head -n1)" != "$required_version" ]]; then
-        echo -e "${red}GLIBC version $glibc_version is too old! Required: 2.30 or higher${plain}"
+        echo -e "${red}GLIBC version $glibc_version is too old! Required: 2.15 or higher${plain}"
         echo "Please upgrade to a newer version of your operating system to get a higher GLIBC version."
         exit 1
     fi
-    echo "GLIBC version: $glibc_version (meets requirement of 2.30+)"
+    echo "GLIBC version: $glibc_version (meets requirement of 2.15+)"
 }
 check_glibc_version
 
